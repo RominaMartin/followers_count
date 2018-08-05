@@ -2,47 +2,28 @@
 // https://www.youtube.com/watch?v=3b7FyIxWW94
 
 // Initial Setup
-var canvas = document.querySelector('canvas');
-var c = canvas.getContext('2d');
+const canvas = document.querySelector('canvas');
+const c = canvas.getContext('2d');
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
-
 // Variables
-var colors = [
-	// '#2185C5',
-	// '#7ECEFD',
-	// '#FFF6E5',
-	'#FF7F66'
-];
-
-var gravity = 0.2;
-var friction = 0;
+let followersCount = 50;
 
 addEventListener("resize", function() {
 	canvas.width = innerWidth;	
 	canvas.height = innerHeight;
-  init();
-});
-
-addEventListener("click", function(event) {
 	init();
 });
 
-
 // Utility Functions
-function randomIntFromRange(min,max) {
-	return Math.floor(Math.random() * (max - min + 1) + min);
-}
+randomIntFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-function randomColor(colors) {
-	return colors[Math.floor(Math.random() * colors.length)];
-}
-
+randomColor = (colors) => colors[Math.floor(Math.random() * colors.length)];
 
 // Objects
-function Ball(x, y, dx, dy, radius, color) {
+function Ball (x, y, dx, dy, radius, color) {
 	this.x = x;
 	this.y = y;
 	this.dx = dx;
@@ -50,17 +31,17 @@ function Ball(x, y, dx, dy, radius, color) {
 	this.radius = radius;
 	this.color = color;
 
-	this.update = function() {
+	this.update = () => {
 		if (this.y + this.radius + this.dy> canvas.height) {
 			this.dy = -this.dy;
-			this.dy = this.dy * friction;
-			this.dx = this.dx * friction;
+			this.dy = this.dy * FRICTION;
+			this.dx = this.dx * FRICTION;
 		} else {
-			this.dy += gravity;
+			this.dy += GRAVITY;
 		}
 
 		if (this.x + this.radius >= canvas.width || this.x - this.radius <= 0) {
-			this.dx = -this.dx * friction;
+			this.dx = -this.dx * FRICTION;
 		}
 
 		this.x += this.dx;
@@ -68,7 +49,7 @@ function Ball(x, y, dx, dy, radius, color) {
 		this.draw();
 	};
 
-	this.draw = function() {
+	this.draw = () => {
 		c.beginPath();
 		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);	
 		c.fillStyle = this.color;
@@ -80,30 +61,56 @@ function Ball(x, y, dx, dy, radius, color) {
 
 
 // Implementation
-var ballArray = [];
 
-function init() {
-	ballArray = [];
+getCodepenFollowers = () => {
+	let username = document.getElementById("user_input").value;
 
-	for (let i = 0; i < 50; i++) {
-		var radius = randomIntFromRange(2, 10);
+	fetch(`${CODEPEN_BASE_URL}${username}`)
+	.then(data => {return data.json()})
+	.then(res => {
+		console.log(res.data.followers);
+		followersCount = Number(res.data.followers.replace(",",""));
+		console.log(followersCount);
+		fillData();
+	})
+}
+
+
+
+
+var followersArray = [];
+
+getRadius = () => {
+	return 5;
+}
+
+init = () => {
+	followersArray = [];
+	getCodepenFollowers();
+}
+
+fillData = () => {
+	let radius = getRadius ();
+
+	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);
 		var y = randomIntFromRange(0, canvas.height - radius);
 		var dx = randomIntFromRange(-3, 3)
 		var dy = randomIntFromRange(-2, 2)
-	    ballArray.push(new Ball(x, y, dx, dy, radius, randomColor(colors)));
+
+	    followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
 	}
 }
 
 // Animation Loop
-function animate() {
+animate = () => {
 	requestAnimationFrame(animate);
 
 	c.clearRect(0, 0, canvas.width, canvas.height);
 
-	for (let i = 0; i < ballArray.length; i++) {
-		ballArray[i].update();
-	}
+	followersArray.forEach(follower => {
+		follower.update();
+	})
 }
 
 init();
