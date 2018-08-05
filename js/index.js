@@ -63,7 +63,7 @@ function Ball (x, y, dx, dy, radius, color) {
 // Implementation
 
 obtainData = () => {
-	console.log("Hey time to get data");
+	getCodepenFollowers();
 }
 
 document.getElementById("search_button").addEventListener("click", obtainData);
@@ -75,18 +75,19 @@ getCodepenFollowers = () => {
 	fetch(`${CODEPEN_BASE_URL}${username}`)
 	.then(data => {return data.json()})
 	.then(res => {
-		console.log(res.data.followers);
 		followersCount = Number(res.data.followers.replace(",",""));
-		console.log(followersCount);
-		fillData();
-	})
+		followersCount = followersCount > MAX_FOLLOWERS && MAX_FOLLOWERS;
+		init();
+	}).catch(err => {
+		// Show error
+	});
 }
 
 
 var followersArray = [];
 
 getRadius = () => {
-	return 5;
+	return 10;
 }
 
 init = () => {

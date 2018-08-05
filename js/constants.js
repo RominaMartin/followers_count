@@ -5,5 +5,7 @@ const COLORS = [
 	'#7ECEFD'
 ];
 
+const MAX_FOLLOWERS = 2000;
+
 // Data
 const CODEPEN_BASE_URL = "https://cpv2api.com/profile/";
