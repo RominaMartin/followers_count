@@ -62,6 +62,13 @@ function Ball (x, y, dx, dy, radius, color) {
 
 // Implementation
 
+obtainData = () => {
+	console.log("Hey time to get data");
+}
+
+document.getElementById("search_button").addEventListener("click", obtainData);
+
+
 getCodepenFollowers = () => {
 	let username = document.getElementById("user_input").value;
 
@@ -76,8 +83,6 @@ getCodepenFollowers = () => {
 }
 
 
-
-
 var followersArray = [];
 
 getRadius = () => {
@@ -86,19 +91,15 @@ getRadius = () => {
 
 init = () => {
 	followersArray = [];
-	getCodepenFollowers();
-}
-
-fillData = () => {
 	let radius = getRadius ();
-
+	
 	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);
 		var y = randomIntFromRange(0, canvas.height - radius);
 		var dx = randomIntFromRange(-3, 3)
 		var dy = randomIntFromRange(-2, 2)
-
-	    followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
+	
+		followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
 	}
 }
 

@@ -1,13 +1,78 @@
 body {
   margin: 0;
   overflow: hidden;
+  background-color: #F7F5E8;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.user_container {
+  width: 180px;
+  background: #FFF;
+  height: 20px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  margin-left: 35px;
+  box-shadow: 0 1px 0 1px rgba(70,70,70,0.2);
+}
+
+.user_container input {
+  width: 120px;
+  border: none;
+  padding: 5px;
+  text-align: center;
+  color: #5c4b51;
+  float: left;
+  outline: none;
+}
+
+.social_icon {
+  color: rgba(0, 0, 0, .6);
+  float: left;
+  background: #FFF;
+  height: 100%;
 }
 
 .fa-twitter {
   color: #00ACED;
 }
 
-#input_container {
+#search_button {
+  padding: 10px 20px;
+  margin-top: 40px;
+  background-color: #FFF;
+  border: none;
+  color: #86868D;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#search_button:hover {
+  background: #EDEDED;
+}
+
+
+canvas {
+  position: relative;
+  z-index: 0;
+}
+
+.input_container {
   position: absolute;
-  left: 10px;
+  left: 40%;
+  top: 50px;
+  background: #6ec4db;
+  opacity: .6;
+  color: #fff;
+  text-align: center;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  z-index: 2;
+}
+
+.input_container h1 {
+  height: 60px;
+  margin-top: 20px;
+  line-height: 60px;
 }
