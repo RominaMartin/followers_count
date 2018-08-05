@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.fa-twitter {
+  color: #00ACED;
+}
+
+#input_container {
+  position: absolute;
+  left: 10px;
+}
