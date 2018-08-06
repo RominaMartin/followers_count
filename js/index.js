@@ -33,14 +33,14 @@ toggleSocial = (network) => {
 		document.getElementById(`social_codepen`).classList.remove("active");
 
 		if(currentValue[0] !== "@") {
-			currentValue = currentValue === "rominamartin" ? "rominamartinlib" : currentValue;
+			currentValue = currentValue === MY_CODEPEN_USER ? MY_TWITTER_USER : currentValue;
 			document.getElementById("user_input").value = "@" + currentValue;
 		}
 	} else {
 		document.getElementById(`social_${network}`).classList.add("active");
 		document.getElementById(`social_twitter`).classList.remove("active");
 		if(network === "codepen" && currentValue[0] === "@") {
-			currentValue = currentValue === "@rominamartinlib" ? "rominamartin" : currentValue;
+			currentValue = currentValue === `@${MY_TWITTER_USER}` ? MY_TWITTER_USER : currentValue;
 			document.getElementById("user_input").value = currentValue.replace("@", "");
 		}
 	}
@@ -101,9 +101,23 @@ obtainData = () => {
 document.getElementById("hide_alert").addEventListener("click", () => {toggleElement("alert_container")});
 document.getElementById("search_button").addEventListener("click", obtainData);
 document.getElementById("user_input").addEventListener("keyup", e => {
-    if (e.keyCode === 13)
-      obtainData();
+	let currentValue = document.getElementById("user_input").value;
+	if(social_network === "twitter") {
+		document.getElementById("user_input").value = currentValue[0] !== "@" ? `@${currentValue}` : currentValue;
+	}
+    if (e.keyCode === 13) {
+		if(currentValue.length < 2) {
+			document.getElementById("user_input").value = social_network === "twitter" ? `@${MY_TWITTER_USER}` : MY_CODEPEN_USER;
+		}
+		obtainData();
+	}
 });
+
+document.getElementById("user_input").addEventListener("focus", () => {
+	if(document.getElementById("user_input").value === `@${MY_TWITTER_USER}` || document.getElementById("user_input").value === MY_CODEPEN_USER)
+		document.getElementById("user_input").value = ""
+});
+
 document.getElementById("social_twitter").addEventListener("click", () => {social_network = "twitter"; toggleSocial("twitter")});
 document.getElementById("social_codepen").addEventListener("click", () => {social_network = "codepen"; toggleSocial("codepen")});
 
