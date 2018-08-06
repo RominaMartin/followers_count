@@ -1,7 +1,6 @@
-// Learn to code this at:
+// I made this based on this cool tutorial, check it out!
 // https://www.youtube.com/watch?v=3b7FyIxWW94
 
-// Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let initialized = false;
@@ -26,9 +25,25 @@ randomIntFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + 
 
 randomColor = (colors) => colors[Math.floor(Math.random() * colors.length)];
 
-toggleSocial = () => {
-	toggleElement("social_codepen");
-	toggleElement("social_twitter");
+toggleSocial = (network) => {	
+	let currentValue = document.getElementById("user_input").value;
+
+	if(network === "twitter") {
+		document.getElementById(`social_${network}`).classList.add("active");
+		document.getElementById(`social_codepen`).classList.remove("active");
+
+		if(currentValue[0] !== "@") {
+			currentValue = currentValue === "rominamartin" ? "rominamartinlib" : currentValue;
+			document.getElementById("user_input").value = "@" + currentValue;
+		}
+	} else {
+		document.getElementById(`social_${network}`).classList.add("active");
+		document.getElementById(`social_twitter`).classList.remove("active");
+		if(network === "codepen" && currentValue[0] === "@") {
+			currentValue = currentValue === "@rominamartinlib" ? "rominamartin" : currentValue;
+			document.getElementById("user_input").value = currentValue.replace("@", "");
+		}
+	}
 }
 
 toggleElement = (element) => {
@@ -89,8 +104,8 @@ document.getElementById("user_input").addEventListener("keyup", e => {
     if (e.keyCode === 13)
       obtainData();
 });
-document.getElementById("social_twitter").addEventListener("click", () => {social_network = "twitter"; toggleSocial()});
-document.getElementById("social_codepen").addEventListener("click", () => {social_network = "codepen"; toggleSocial()});
+document.getElementById("social_twitter").addEventListener("click", () => {social_network = "twitter"; toggleSocial("twitter")});
+document.getElementById("social_codepen").addEventListener("click", () => {social_network = "codepen"; toggleSocial("codepen")});
 
 checkMaxFollowers = (value) => {
 	if(value > MAX_FOLLOWERS) {
@@ -102,11 +117,27 @@ checkMaxFollowers = (value) => {
 
 getCodepenFollowers = () => {
 	let username = document.getElementById("user_input").value;
+	username = username[0] === "@" ? username.replace("@", "") : username;
 
 	fetch(`${CODEPEN_BASE_URL}${username}`)
 	.then(data => data.json())
 	.then(res => {
 		followersCount = Number(res.data.followers.replace(",",""));
+		checkMaxFollowers(followersCount);
+		init();
+	}).catch(err => {
+		toggleElement("error_message");
+	});
+}
+
+getTwitterFollowers = () => {
+	let username = document.getElementById("user_input").value;
+	username = username[0] === "@" ? username.replace("@", "") : username;
+
+	fetch(`${TWITTER_BASE_URL}${username}`)
+	.then(data => data.json())
+	.then(res => {
+		followersCount = Number(res[0].followers_count);
 		checkMaxFollowers(followersCount);
 
 		init();

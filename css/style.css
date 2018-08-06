@@ -18,11 +18,12 @@ body {
 .user_container input {
   width: 120px;
   border: none;
-  padding: 5px;
+  padding: 5px 0;
   text-align: center;
   color: #5c4b51;
   float: left;
   outline: none;
+  font-size: .75rem;
 }
 
 .social_icon {
