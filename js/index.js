@@ -5,6 +5,7 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let initialized = false;
+let social_network = "twitter";
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -24,6 +25,11 @@ addEventListener("resize", function() {
 randomIntFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 randomColor = (colors) => colors[Math.floor(Math.random() * colors.length)];
+
+toggleSocial = () => {
+	toggleElement("social_codepen");
+	toggleElement("social_twitter");
+}
 
 toggleElement = (element) => {
 	document.getElementById(element).classList.toggle("active");
@@ -71,12 +77,20 @@ function Ball (x, y, dx, dy, radius, color) {
 }
 
 obtainData = () => {
-	getCodepenFollowers();
+	if(social_network === "codepen")
+		getCodepenFollowers();
+	else
+		getTwitterFollowers();
 }
-
 
 document.getElementById("hide_alert").addEventListener("click", () => {toggleElement("alert_container")});
 document.getElementById("search_button").addEventListener("click", obtainData);
+document.getElementById("user_input").addEventListener("keyup", e => {
+    if (e.keyCode === 13)
+      obtainData();
+});
+document.getElementById("social_twitter").addEventListener("click", () => {social_network = "twitter"; toggleSocial()});
+document.getElementById("social_codepen").addEventListener("click", () => {social_network = "codepen"; toggleSocial()});
 
 checkMaxFollowers = (value) => {
 	if(value > MAX_FOLLOWERS) {

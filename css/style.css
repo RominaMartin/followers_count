@@ -26,7 +26,7 @@ body {
 }
 
 .social_icon {
-  color: rgba(0, 0, 0, .6);
+  color: rgba(100, 100, 100, .3);
   float: left;
   background: #FFF;
   height: 100%;
@@ -36,11 +36,11 @@ body {
   cursor: pointer;
 }
 
-.social_twitter.active {
+#social_twitter.active {
   color: #00ACED;
 }
-.social_codepen.active {
-  opacity: 1;
+#social_codepen.active {
+  color: rgba(0, 0, 0, 1);
 }
 
 .button {
