@@ -169,6 +169,11 @@ init = () => {
 	removeUserError();
 	followersArray = [];
 	
+	if(followersCount < MAX_FOLLOWERS) {
+		document.getElementById("followers_amount").innerText = followersCount;
+		document.getElementById("followers_total").classList.add("active");
+	}
+
 	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);
 		var y = randomIntFromRange(0, canvas.height - radius);

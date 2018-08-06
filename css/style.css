@@ -138,3 +138,7 @@ canvas {
 .my_social a img { 
   height: 1.5em;
 }
+
+#followers_total { display: none; position: absolute; top: 50px; left: 25px}
+#followers_total.active { display: inline-block}
+
