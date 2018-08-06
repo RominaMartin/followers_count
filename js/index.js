@@ -92,6 +92,11 @@ function Ball (x, y, dx, dy, radius, color) {
 }
 
 obtainData = () => {
+	let currentValue = document.getElementById("user_input").value;
+
+	if(currentValue.length < 2)
+		document.getElementById("user_input").value = social_network === "twitter" ? `@${MY_TWITTER_USER}` : MY_CODEPEN_USER;
+
 	if(social_network === "codepen")
 		getCodepenFollowers();
 	else
@@ -106,9 +111,6 @@ document.getElementById("user_input").addEventListener("keyup", e => {
 		document.getElementById("user_input").value = currentValue[0] !== "@" ? `@${currentValue}` : currentValue;
 	}
     if (e.keyCode === 13) {
-		if(currentValue.length < 2) {
-			document.getElementById("user_input").value = social_network === "twitter" ? `@${MY_TWITTER_USER}` : MY_CODEPEN_USER;
-		}
 		obtainData();
 	}
 });
@@ -190,6 +192,3 @@ animate = () => {
 		follower.update();
 	})
 }
-
-// init();
-// animate();

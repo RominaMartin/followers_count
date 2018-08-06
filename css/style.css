@@ -37,10 +37,10 @@ body {
   cursor: pointer;
 }
 
-#social_twitter.active {
+.social_twitter.active, #social_twitter.active {
   color: #00ACED;
 }
-#social_codepen.active {
+.social_codepen.active, #social_codepen.active {
   color: rgba(0, 0, 0, 1);
 }
 
@@ -124,4 +124,17 @@ canvas {
   margin-top: 25px;
   color: #C9F0FF;
   font-weight: bold;
+}
+
+.my_social {
+  position: relative;
+  top: 25px;
+  left: 25px;
+}
+.my_social a {
+  display: inline-block;
+  height: 2.5em;
+}
+.my_social a img { 
+  height: 1.5em;
 }
