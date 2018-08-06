@@ -73,10 +73,11 @@ getCodepenFollowers = () => {
 	let username = document.getElementById("user_input").value;
 
 	fetch(`${CODEPEN_BASE_URL}${username}`)
-	.then(data => {return data.json()})
+	.then(data => data.json())
 	.then(res => {
 		followersCount = Number(res.data.followers.replace(",",""));
-		followersCount = followersCount > MAX_FOLLOWERS && MAX_FOLLOWERS;
+		followersCount = followersCount > MAX_FOLLOWERS ? MAX_FOLLOWERS : followersCount;
+
 		init();
 	}).catch(err => {
 		// Show error
@@ -91,6 +92,7 @@ getRadius = () => {
 }
 
 init = () => {
+	console.log("init");
 	followersArray = [];
 	let radius = getRadius ();
 	
