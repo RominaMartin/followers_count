@@ -40,7 +40,7 @@ toggleSocial = (network) => {
 		document.getElementById(`social_${network}`).classList.add("active");
 		document.getElementById(`social_twitter`).classList.remove("active");
 		if(network === "codepen" && currentValue[0] === "@") {
-			currentValue = currentValue === `@${MY_TWITTER_USER}` ? MY_TWITTER_USER : currentValue;
+			currentValue = currentValue === `@${MY_TWITTER_USER}` ? MY_CODEPEN_USER : currentValue;
 			document.getElementById("user_input").value = currentValue.replace("@", "");
 		}
 	}
@@ -184,6 +184,7 @@ init = () => {
 
 // Animation Loop
 animate = () => {
+	initialized = true;
 	requestAnimationFrame(animate);
 
 	c.clearRect(0, 0, canvas.width, canvas.height);

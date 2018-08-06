@@ -127,7 +127,7 @@ canvas {
 }
 
 .my_social {
-  position: relative;
+  position: absolute;
   top: 25px;
   left: 25px;
 }
