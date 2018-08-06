@@ -51,6 +51,16 @@ body {
   background: #EDEDED;
 }
 
+#error_message.active {
+  display: inline-block;
+}
+
+#error_message {
+  margin-top: 10px;
+  display: none;
+  color: #ca1c24;
+  font-weight: bolder;
+}
 
 canvas {
   position: relative;

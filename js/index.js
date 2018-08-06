@@ -22,6 +22,14 @@ randomIntFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + 
 
 randomColor = (colors) => colors[Math.floor(Math.random() * colors.length)];
 
+toggleElement = (element) => {
+	document.getElementById(element).classList.toggle("active");
+}
+
+resetVisualElements = () => {
+	document.querySelectorAll(".active").forEach(e => e.classList.remove("active"));
+}
+
 // Objects
 function Ball (x, y, dx, dy, radius, color) {
 	this.x = x;
@@ -59,15 +67,18 @@ function Ball (x, y, dx, dy, radius, color) {
 	};
 }
 
-
-// Implementation
-
 obtainData = () => {
 	getCodepenFollowers();
 }
 
 document.getElementById("search_button").addEventListener("click", obtainData);
 
+checkMaxFollowers = (value) => {
+	if(value > MAX_FOLLOWERS) {
+		followersCount = MAX_FOLLOWERS;
+
+	}
+}
 
 getCodepenFollowers = () => {
 	let username = document.getElementById("user_input").value;
@@ -76,11 +87,11 @@ getCodepenFollowers = () => {
 	.then(data => data.json())
 	.then(res => {
 		followersCount = Number(res.data.followers.replace(",",""));
-		followersCount = followersCount > MAX_FOLLOWERS ? MAX_FOLLOWERS : followersCount;
+		checkMaxFollowers();
 
 		init();
 	}).catch(err => {
-		// Show error
+		toggleElement("error_message");
 	});
 }
 
@@ -92,8 +103,9 @@ getRadius = () => {
 }
 
 init = () => {
-	console.log("init");
+	resetVisualElements();
 	followersArray = [];
+
 	let radius = getRadius ();
 	
 	for (let i = 0; i < followersCount; i++) {
