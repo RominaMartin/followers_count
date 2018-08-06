@@ -8,5 +8,10 @@ You can check him out here:
 - Codepen which is based on [here](https://codepen.io/chriscourses/pen/jmQXvm)
 - Youtube where the tutorial is at [here](https://www.youtube.com/watch?v=3b7FyIxWW94)
 
+## Features:
+- [x] Fetch api use  -> Obtain data from Codepen and Twitter
+- [x] Gravity -> Canvas, balls with gravity
 
 You can see it working in [codepen](https://codepen.io/RominaMartin/pen/rrrzdv)
+
+![](followers_count.gif)
