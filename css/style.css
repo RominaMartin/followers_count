@@ -32,11 +32,14 @@ body {
   height: 100%;
 }
 
-.fa-twitter {
+.social_twitter.active {
   color: #00ACED;
 }
+.social_codepen.active {
+  opacity: 1;
+}
 
-#search_button {
+.button {
   padding: 10px 20px;
   margin-top: 40px;
   background-color: #FFF;
@@ -47,7 +50,7 @@ body {
   border-radius: 5px;
 }
 
-#search_button:hover {
+.button:hover {
   background: #EDEDED;
 }
 
@@ -85,4 +88,35 @@ canvas {
   height: 60px;
   margin-top: 20px;
   line-height: 60px;
+}
+
+#alert_container {
+  display: none;
+}
+
+#alert_container.active {
+  display: inline-block;
+  position: absolute;
+  left: 40%;
+  top: 50px;
+  background: #5c4b51;
+  color: #fff;
+  text-align: center;
+  width: 250px;
+  height: 250px;
+  z-index: 2;
+  border-radius: 5px;
+}
+
+#alert_container h1 {
+  color: #FFAFC5;
+  text-shadow: -1px 1px 1px #ededed;
+}
+
+.followers_amount {
+  display: block;
+  width: 100%;
+  margin-top: 25px;
+  color: #C9F0FF;
+  font-weight: bold;
 }

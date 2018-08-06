@@ -4,17 +4,20 @@
 // Initial Setup
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+let initialized = false;
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 // Variables
-let followersCount = 50;
+let followersCount = null;
 
 addEventListener("resize", function() {
-	canvas.width = innerWidth;	
+	canvas.width = innerWidth;
 	canvas.height = innerHeight;
-	init();
+
+	if(followersCount !== null)
+		init();
 });
 
 // Utility Functions
@@ -71,12 +74,15 @@ obtainData = () => {
 	getCodepenFollowers();
 }
 
+
+document.getElementById("hide_alert").addEventListener("click", () => {toggleElement("alert_container")});
 document.getElementById("search_button").addEventListener("click", obtainData);
 
 checkMaxFollowers = (value) => {
 	if(value > MAX_FOLLOWERS) {
 		followersCount = MAX_FOLLOWERS;
-
+		document.getElementById("followers_count").innerText = value;
+		toggleElement("alert_container");
 	}
 }
 
@@ -103,6 +109,7 @@ getRadius = () => {
 }
 
 init = () => {
+	console.log("init");
 	resetVisualElements();
 	followersArray = [];
 
@@ -116,6 +123,8 @@ init = () => {
 	
 		followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
 	}
+	if(!initialized)
+		animate();
 }
 
 // Animation Loop
@@ -129,5 +138,5 @@ animate = () => {
 	})
 }
 
-init();
-animate();
+// init();
+// animate();

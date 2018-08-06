@@ -10,21 +10,31 @@
 </head>
 
 <body>
-  <div class="input_container">
-    <h1>USERNAME</h1>
-    <div class="user_container">
-      <div class="social_icon">
-        <i class="fa fa-twitter fa-lg"></i>
-        <i class="fa fa-codepen fa-lg"></i>
+  <div class="elements_container">
+
+    <div class="input_container">
+      <h1>USERNAME</h1>
+      <div class="user_container">
+        <div class="social_icon">
+          <span class="social_twitter"><i class="fa fa-twitter fa-lg"></i></span>
+          <span class="social_codepen"><i class="fa fa-codepen fa-lg"></i></span>
+        </div>
+        <input id="user_input" type="text" value="rominamartin">
+        <span id="error_message">USER NOT VALID</span>
       </div>
-      <input id="user_input" type="text" value="rominamartin">
-      <span id="error_message" class="active">USER NOT VALID</span>
+      <button class="button" id="search_button">SEARCH</button>
     </div>
-    <button id="search_button">SEARCH</button>
+    
+    <div id="alert_container">
+      <div>
+        <h1>WAIT WHAT</h1>
+        <span>WHAT ARE YOU DOING HERE?</span>
+        <span class="followers_amount">YOU'VE GOT <span id="followers_count"></span> FOLLOWERS!</span>
+      </div>
+      <button class="button" id="hide_alert">STOP IT SILLY!</button>
+    </div>
   </div>
-
-  <div class="alert_container active">test</div>
-
+    
   <canvas></canvas>
   <!-- Pen based on @Christopher Lis and following his tutorial at: https://www.youtube.com/watch?v=3b7FyIxWW94  -->
 
