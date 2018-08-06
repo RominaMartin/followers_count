@@ -29,8 +29,8 @@ toggleElement = (element) => {
 	document.getElementById(element).classList.toggle("active");
 }
 
-resetVisualElements = () => {
-	document.querySelectorAll(".active").forEach(e => e.classList.remove("active"));
+removeUserError = () => {
+	document.getElementById("error_message").classList.remove("active");
 }
 
 // Objects
@@ -93,7 +93,7 @@ getCodepenFollowers = () => {
 	.then(data => data.json())
 	.then(res => {
 		followersCount = Number(res.data.followers.replace(",",""));
-		checkMaxFollowers();
+		checkMaxFollowers(followersCount);
 
 		init();
 	}).catch(err => {
@@ -104,23 +104,17 @@ getCodepenFollowers = () => {
 
 var followersArray = [];
 
-getRadius = () => {
-	return 10;
-}
-
 init = () => {
-	console.log("init");
-	resetVisualElements();
+	removeUserError();
 	followersArray = [];
-
-	let radius = getRadius ();
 	
 	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);
 		var y = randomIntFromRange(0, canvas.height - radius);
-		var dx = randomIntFromRange(-3, 3)
-		var dy = randomIntFromRange(-2, 2)
-	
+		var dx = randomIntFromRange(-3, 3);
+		var dy = randomIntFromRange(-2, 2);
+		var radius = randomIntFromRange(10, 20);
+
 		followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
 	}
 	if(!initialized)

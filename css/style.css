@@ -32,6 +32,10 @@ body {
   height: 100%;
 }
 
+.social_icon span {
+  cursor: pointer;
+}
+
 .social_twitter.active {
   color: #00ACED;
 }
