@@ -55,12 +55,12 @@ body {
   border-radius: 5px;
 }
 
-.button:hover {
-  background: #EDEDED;
+#search_button {
+  display: none;
 }
 
-#error_message.active {
-  display: inline-block;
+.button:hover {
+  background: #EDEDED;
 }
 
 #error_message {
@@ -110,8 +110,8 @@ canvas {
   z-index: 2;
 }
 
-#alert_container.active {
-  display: inline-block;
+.active {
+  display: inline-block !important;
 }
 
 #alert_container h1 {
@@ -141,5 +141,19 @@ canvas {
 }
 
 .followers_amount { display: none; position: absolute; top: 50px; left: 25px; color: rgba(70,70,70,.8)}
-.followers_amount.active { display: inline-block}
 
+#loader {
+  display: none;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  border-top: 5px solid #86868D;
+  width: 25px;
+  height: 25px;
+  animation: spin 1.5s linear infinite;
+  margin-top: 40px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

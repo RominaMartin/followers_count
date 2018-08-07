@@ -52,6 +52,11 @@ toggleElement = (element) => {
 	document.getElementById(element).classList.toggle("active");
 }
 
+toggleLoader = () => {
+	document.getElementById("loader").classList.toggle("active");
+	document.getElementById("search_button").classList.toggle("active");
+}
+
 removeUserError = () => {
 	document.getElementById("error_message").classList.remove("active");
 	document.getElementById("followers_total").classList.remove("active");
@@ -105,6 +110,9 @@ obtainData = () => {
 
 	if (currentValue !== lastSearch.user || social_network !== lastSearch.network) {
 		lastSearch = { user: currentValue, network: social_network };
+
+		toggleLoader();
+
 		if (social_network === "codepen")
 			getCodepenFollowers();
 		else
@@ -151,9 +159,11 @@ getCodepenFollowers = () => {
 		.then(res => {
 			followersCount = Number(res.data.followers.replace(",", ""));
 			checkMaxFollowers(followersCount);
+			toggleLoader();
 			init();
 		}).catch(err => {
 			toggleElement("error_message");
+			toggleLoader();
 		});
 }
 
@@ -166,9 +176,10 @@ getTwitterFollowers = () => {
 		.then(res => {
 			followersCount = Number(res[0].followers_count);
 			checkMaxFollowers(followersCount);
-
+			toggleLoader();
 			init();
 		}).catch(err => {
+			toggleLoader();
 			toggleElement("error_message");
 		});
 }
