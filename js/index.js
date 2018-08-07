@@ -6,6 +6,7 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 let initialized = false;
 let social_network = "twitter";
+let lastSearch = { network: null, user: null };
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -13,11 +14,11 @@ canvas.height = innerHeight;
 // Variables
 let followersCount = null;
 
-addEventListener("resize", function() {
+addEventListener("resize", function () {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 
-	if(followersCount !== null)
+	if (followersCount !== null)
 		init();
 });
 
@@ -26,21 +27,21 @@ randomIntFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + 
 
 randomColor = (colors) => colors[Math.floor(Math.random() * colors.length)];
 
-toggleSocial = (network) => {	
+toggleSocial = (network) => {
 	let currentValue = document.getElementById("user_input").value;
 
-	if(network === "twitter") {
+	if (network === "twitter") {
 		document.getElementById(`social_${network}`).classList.add("active");
 		document.getElementById(`social_codepen`).classList.remove("active");
 
-		if(currentValue[0] !== "@") {
+		if (currentValue[0] !== "@") {
 			currentValue = currentValue === MY_CODEPEN_USER ? MY_TWITTER_USER : currentValue;
 			document.getElementById("user_input").value = "@" + currentValue;
 		}
 	} else {
 		document.getElementById(`social_${network}`).classList.add("active");
 		document.getElementById(`social_twitter`).classList.remove("active");
-		if(network === "codepen" && currentValue[0] === "@") {
+		if (network === "codepen" && currentValue[0] === "@") {
 			currentValue = currentValue === `@${MY_TWITTER_USER}` ? MY_CODEPEN_USER : currentValue;
 			document.getElementById("user_input").value = currentValue.replace("@", "");
 		}
@@ -53,12 +54,12 @@ toggleElement = (element) => {
 
 removeUserError = () => {
 	document.getElementById("error_message").classList.remove("active");
-  document.getElementById("followers_total").classList.remove("active");
-    document.getElementById("no_followers").classList.remove("active");
+	document.getElementById("followers_total").classList.remove("active");
+	document.getElementById("no_followers").classList.remove("active");
 }
 
 // Objects
-function Ball (x, y, dx, dy, radius, color) {
+function Ball(x, y, dx, dy, radius, color) {
 	this.x = x;
 	this.y = y;
 	this.dx = dx;
@@ -67,7 +68,7 @@ function Ball (x, y, dx, dy, radius, color) {
 	this.color = color;
 
 	this.update = () => {
-		if (this.y + this.radius + this.dy> canvas.height) {
+		if (this.y + this.radius + this.dy > canvas.height) {
 			this.dy = -this.dy;
 			this.dy = this.dy * FRICTION;
 			this.dx = this.dx * FRICTION;
@@ -86,7 +87,7 @@ function Ball (x, y, dx, dy, radius, color) {
 
 	this.draw = () => {
 		c.beginPath();
-		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);	
+		c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 		c.fillStyle = this.color;
 		c.fill();
 		c.stroke();
@@ -97,37 +98,44 @@ function Ball (x, y, dx, dy, radius, color) {
 obtainData = () => {
 	let currentValue = document.getElementById("user_input").value;
 
-	if(currentValue.length < 2)
+	if (currentValue.length < 2) {
 		document.getElementById("user_input").value = social_network === "twitter" ? `@${MY_TWITTER_USER}` : MY_CODEPEN_USER;
+		currentValue = document.getElementById("user_input").value;
+	}
 
-	if(social_network === "codepen")
-		getCodepenFollowers();
-	else
-		getTwitterFollowers();
+	if (currentValue !== lastSearch.user || social_network !== lastSearch.network) {
+		lastSearch = { user: currentValue, network: social_network };
+		if (social_network === "codepen")
+			getCodepenFollowers();
+		else
+			getTwitterFollowers();
+	} else {
+		init();
+	}
 }
 
-document.getElementById("hide_alert").addEventListener("click", () => {toggleElement("alert_container")});
+document.getElementById("hide_alert").addEventListener("click", () => { toggleElement("alert_container") });
 document.getElementById("search_button").addEventListener("click", obtainData);
 document.getElementById("user_input").addEventListener("keyup", e => {
 	let currentValue = document.getElementById("user_input").value;
-	if(social_network === "twitter") {
+	if (social_network === "twitter") {
 		document.getElementById("user_input").value = currentValue[0] !== "@" ? `@${currentValue}` : currentValue;
 	}
-    if (e.keyCode === 13) {
+	if (e.keyCode === 13) {
 		obtainData();
 	}
 });
 
 document.getElementById("user_input").addEventListener("focus", () => {
-	if(document.getElementById("user_input").value === `@${MY_TWITTER_USER}` || document.getElementById("user_input").value === MY_CODEPEN_USER)
+	if (document.getElementById("user_input").value === `@${MY_TWITTER_USER}` || document.getElementById("user_input").value === MY_CODEPEN_USER)
 		document.getElementById("user_input").value = ""
 });
 
-document.getElementById("social_twitter").addEventListener("click", () => {social_network = "twitter"; toggleSocial("twitter")});
-document.getElementById("social_codepen").addEventListener("click", () => {social_network = "codepen"; toggleSocial("codepen")});
+document.getElementById("social_twitter").addEventListener("click", () => { social_network = "twitter"; toggleSocial("twitter") });
+document.getElementById("social_codepen").addEventListener("click", () => { social_network = "codepen"; toggleSocial("codepen") });
 
 checkMaxFollowers = (value) => {
-	if(value > MAX_FOLLOWERS) {
+	if (value > MAX_FOLLOWERS) {
 		followersCount = MAX_FOLLOWERS;
 		document.getElementById("followers_count").innerText = value;
 		toggleElement("alert_container");
@@ -139,14 +147,14 @@ getCodepenFollowers = () => {
 	username = username[0] === "@" ? username.replace("@", "") : username;
 
 	fetch(`${CODEPEN_BASE_URL}${username}`)
-	.then(data => data.json())
-	.then(res => {
-		followersCount = Number(res.data.followers.replace(",",""));
-		checkMaxFollowers(followersCount);
-		init();
-	}).catch(err => {
-		toggleElement("error_message");
-	});
+		.then(data => data.json())
+		.then(res => {
+			followersCount = Number(res.data.followers.replace(",", ""));
+			checkMaxFollowers(followersCount);
+			init();
+		}).catch(err => {
+			toggleElement("error_message");
+		});
 }
 
 getTwitterFollowers = () => {
@@ -154,15 +162,15 @@ getTwitterFollowers = () => {
 	username = username[0] === "@" ? username.replace("@", "") : username;
 
 	fetch(`${TWITTER_BASE_URL}${username}`)
-	.then(data => data.json())
-	.then(res => {
-		followersCount = Number(res[0].followers_count);
-		checkMaxFollowers(followersCount);
+		.then(data => data.json())
+		.then(res => {
+			followersCount = Number(res[0].followers_count);
+			checkMaxFollowers(followersCount);
 
-		init();
-	}).catch(err => {
-		toggleElement("error_message");
-	});
+			init();
+		}).catch(err => {
+			toggleElement("error_message");
+		});
 }
 
 
@@ -171,17 +179,17 @@ var followersArray = [];
 init = () => {
 	removeUserError();
 	followersArray = [];
-  document.getElementById("no_followers").classList.remove("active");
-	
-	if(followersCount < MAX_FOLLOWERS && followersCount > 1) {
+	document.getElementById("no_followers").classList.remove("active");
+
+	if (followersCount < MAX_FOLLOWERS && followersCount > 1) {
 		document.getElementById("followers_amount").innerText = followersCount;
 		document.getElementById("followers_total").classList.add("active");
-	} else if(followersCount == 0) {
-    document.getElementById("no_followers").classList.add("active");
-  } else {
-    document.getElementById("followers_total").classList.remove("active");
-    document.getElementById("no_followers").classList.remove("active");
-  }
+	} else if (followersCount == 0) {
+		document.getElementById("no_followers").classList.add("active");
+	} else {
+		document.getElementById("followers_total").classList.remove("active");
+		document.getElementById("no_followers").classList.remove("active");
+	}
 
 	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);
@@ -192,7 +200,7 @@ init = () => {
 
 		followersArray.push(new Ball(x, y, dx, dy, radius, randomColor(COLORS)));
 	}
-	if(!initialized)
+	if (!initialized)
 		animate();
 }
 
