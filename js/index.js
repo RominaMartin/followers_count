@@ -1,3 +1,4 @@
+
 // I made this based on this cool tutorial, check it out!
 // https://www.youtube.com/watch?v=3b7FyIxWW94
 
@@ -52,6 +53,8 @@ toggleElement = (element) => {
 
 removeUserError = () => {
 	document.getElementById("error_message").classList.remove("active");
+  document.getElementById("followers_total").classList.remove("active");
+    document.getElementById("no_followers").classList.remove("active");
 }
 
 // Objects
@@ -168,11 +171,17 @@ var followersArray = [];
 init = () => {
 	removeUserError();
 	followersArray = [];
+  document.getElementById("no_followers").classList.remove("active");
 	
-	if(followersCount < MAX_FOLLOWERS) {
+	if(followersCount < MAX_FOLLOWERS && followersCount > 1) {
 		document.getElementById("followers_amount").innerText = followersCount;
 		document.getElementById("followers_total").classList.add("active");
-	}
+	} else if(followersCount == 0) {
+    document.getElementById("no_followers").classList.add("active");
+  } else {
+    document.getElementById("followers_total").classList.remove("active");
+    document.getElementById("no_followers").classList.remove("active");
+  }
 
 	for (let i = 0; i < followersCount; i++) {
 		var x = randomIntFromRange(radius, canvas.width - radius);

@@ -12,6 +12,6 @@ You can check him out here:
 - [x] Fetch api use  -> Obtain data from Codepen and Twitter
 - [x] Gravity -> Canvas, balls with gravity
 
-You can see it working in [codepen](https://codepen.io/RominaMartin/pen/rrrzdv)
+You can see it working in [codepen](https://codepen.io/RominaMartin/full/wxYJaZ/)
 
 ![](followers_count.gif)
